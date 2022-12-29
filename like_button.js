@@ -7,7 +7,13 @@ function LikeButton() {
     return "You liked this!";
   }
 
-  return (<button onClick={() => setLiked(true)}>Like</button>);
+  return React.createElement(
+    "button",
+    {
+      onClick: () => setLiked(true),
+    },
+    "Like"
+  );
 }
 
 const rootNode = document.getElementById("like-button-root");
