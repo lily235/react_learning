@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
 
-function App() {
+export default function ToDoList() {
+  const [itemText, setItemText] = useState("");
+  const [todoItems, setToDoItems] = useState([]);
+
+  function handleAddItem(newItem) {
+    const nextTodoItems = [...todoItems.slice(), newItem];
+    setToDoItems(nextTodoItems);
+  }
+
+  const items = todoItems.map((oneitem, i) => {
+    return <li key={i}>{oneitem}</li>;
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="todolist">
+      <div className="addtodo">
+        <AddItemBar
+          itemText={itemText}
+          onItemTextChange={setItemText}
+          onAdd={handleAddItem}
+        />
+      </div>
+      <div className="todoitems">
+        <ol>{items}</ol>
+      </div>
     </div>
   );
 }
 
-export default App;
+function AddItemBar({ itemText, onItemTextChange, onAdd }) {
+  return (
+    <form>
+      <input
+        type="text"
+        value={itemText}
+        placeholder="add todo..."
+        onChange={(e) => onItemTextChange(e.target.value)}
+      />
+      <button onClick={() => onAdd(itemText)}>ADD</button>
+    </form>
+  );
+}
