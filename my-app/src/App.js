@@ -9,36 +9,35 @@ export default function ToDoList() {
     setToDoItems(nextTodoItems);
   }
 
-  const items = todoItems.map((oneitem, i) => {
-    return <li key={i}>{oneitem}</li>;
+  function onItemTextChange(newItem) {
+    setItemText(newItem);
+  }
+  const items = [];
+  todoItems.forEach((oneitem, i) => {
+    items.push(<li key={i}>{oneitem}</li>);
   });
 
   return (
     <div className="todolist">
       <div className="addtodo">
-        <AddItemBar
-          itemText={itemText}
-          onItemTextChange={setItemText}
-          onAdd={handleAddItem}
-        />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAddItem(itemText);
+          }}
+        >
+          <input
+            type="text"
+            value={itemText}
+            placeholder="add todo..."
+            onChange={(e) => onItemTextChange(e.target.value)}
+          />
+          <input type="submit" value="ADD" />
+        </form>
       </div>
       <div className="todoitems">
         <ol>{items}</ol>
       </div>
     </div>
-  );
-}
-
-function AddItemBar({ itemText, onItemTextChange, onAdd }) {
-  return (
-    <form>
-      <input
-        type="text"
-        value={itemText}
-        placeholder="add todo..."
-        onChange={(e) => onItemTextChange(e.target.value)}
-      />
-      <button onClick={() => onAdd(itemText)}>ADD</button>
-    </form>
   );
 }
