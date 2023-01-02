@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
 
-function App() {
+export default function ToDoList() {
+  const [itemText, setItemText] = useState("");
+  const [todoItems, setToDoItems] = useState([]);
+
+  function handleAddItem(newItem) {
+    const nextTodoItems = [...todoItems.slice(), newItem];
+    setToDoItems(nextTodoItems);
+  }
+
+  function onItemTextChange(newItem) {
+    setItemText(newItem);
+  }
+  const items = [];
+  todoItems.forEach((oneitem, i) => {
+    items.push(<li key={i}>{oneitem}</li>);
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="todolist">
+      <div className="addtodo">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAddItem(itemText);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <input
+            type="text"
+            value={itemText}
+            placeholder="add todo..."
+            onChange={(e) => onItemTextChange(e.target.value)}
+          />
+          <input type="submit" value="ADD" />
+        </form>
+      </div>
+      <div className="todoitems">
+        <ol>{items}</ol>
+      </div>
     </div>
   );
 }
-
-export default App;
