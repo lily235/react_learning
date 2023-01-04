@@ -5,8 +5,12 @@ export default function ToDoList() {
   const [todoItems, setToDoItems] = useState([]);
 
   function handleAddItem(newItem) {
+    if (!newItem) {
+      return;
+    }
     const nextTodoItems = [...todoItems.slice(), newItem];
     setToDoItems(nextTodoItems);
+    setItemText("");
   }
 
   function onItemTextChange(newItem) {
